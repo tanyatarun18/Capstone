@@ -1,39 +1,103 @@
-# Hotel Booking Data Analysis Project
+# 🏨 Grand Horizon Hotels Analytics Platform
+### *An End-to-End Python Full-Stack Data Pipeline & Business Intelligence Web Application*
 
-## Project Overview
+[![Python](https://img.shields.io/badge/Python-3.x-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green.svg)](https://flask.palletsprojects.com/)
+[![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-orange.svg)](https://pandas.pydata.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-lightgrey.svg)](https://www.sqlite.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The **Hotel Booking Data Analysis Project** focuses on cleaning, processing, analyzing, and visualizing hotel booking data to identify useful insights into booking patterns, cancellations, revenue performance, customer loyalty, and property performance.
+</div>
 
-The project uses Python, Pandas, NumPy, Matplotlib, Seaborn, and SQLite to process booking records, enrich them with reference data, generate analytical reports, and create visualizations to support data-driven decision-making.
+---
 
-## Objectives
+## 📌 Table of Contents
+* [Overview](#-overview)
+* [System Architecture & Workflow](#-system-architecture--workflow)
+* [Key Features & Modules](#-key-features--modules)
+* [Tech Stack](#-tech-stack)
+* [Project Directory Structure](#-project-directory-structure)
+* [Getting Started & Installation](#-getting-started--installation)
+* [Execution Guide](#-execution-guide)
+* [Key Business Insights & Findings](#-key-business-insights--findings)
 
-- Clean and validate hotel booking data.
-- Handle missing values, invalid records, inconsistent formats, and data types.
-- Enrich booking records using property, booking channel, city market, room type, and loyalty tier reference tables.
-- Analyze booking trends and cancellation patterns.
-- Evaluate the relationship between customer loyalty, booking behavior, and ratings.
-- Compare revenue and performance across hotel properties and booking channels.
-- Identify room types that contribute the most realized revenue.
-- Store cleaned and enriched data in a SQLite database.
-- Generate CSV reports, text summaries, and graphs for further analysis.
+---
 
-## Technologies Used
+## 📖 Overview
+The **Grand Horizon Hotels Analytics Platform** is a full-stack data intelligence system built as an Accenture Capstone project. It transforms raw, inconsistent hospitality reservation logs across **8 premier U.S. properties** (spanning New York, Chicago, Miami, Las Vegas, San Francisco, Orlando, Dallas, and Seattle) into a polished, production-ready web application.
 
-- **Python** – Data processing and analysis
-- **Pandas** – Data cleaning, transformation, aggregation, and analysis
-- **NumPy** – Numerical operations and data validation
-- **Matplotlib** – Data visualization
-- **Seaborn** – Statistical visualization and heatmaps
-- **SQLite** – Storage and querying of cleaned and enriched data
-- **Pathlib** – File and directory management
+The platform automates the entire data lifecycle: ingesting 5-day booking snapshots, performing rigorous cleaning and feature engineering, storing relational entities in an SQLite warehouse, generating advanced Matplotlib/Seaborn visualizations, and serving interactive dashboards via Flask.
 
-## Project Structure
+---
+
+## 🔄 System Architecture & Workflow
+The platform processes data through a multi-stage automated pipeline:
 
 ```text
-Hotel-Booking-Data-Analysis/
+ ┌────────────────────────┐       ┌────────────────────────┐       ┌────────────────────────┐
+ │   Raw CSV Data Feeds   │ ----> │  UC1: Data Cleaning &  │ ----> │    Relational SQLite   │
+ │ (Bookings & Metadata)  │       │  Feature Engineering   │       │   Data Warehouse (DB)  │
+ └────────────────────────>       └────────────────────────┘       └────────────────────────┘
+                                                                                │
+                                                                                ▼
+ ┌────────────────────────┐       ┌────────────────────────┐       ┌────────────────────────┐
+ │  Flask Web Application │ <---- │  UC4/UC5: SQL Views &  │ <---- │  UC2/UC3: Statistical  │
+ │ & Executive Dashboard  │       │   Business Reporting   │       │  Analysis & Graphics   │
+ └────────────────────────┘       └────────────────────────┘       └────────────────────────┘
+
+```
+
+---
+
+## 🚀 Key Features & Modules
+
+### 1️⃣ Data Ingestion & Cleaning (`UC1`)
+
+* **Robust Parsing:** Handles mixed raw date formats (`m/d/Y` vs `YYYY-mm-dd`) across legacy system logs.
+* **Feature Engineering:** Automatically computes `BookingDay`, `BookingHour`, `LengthOfStay`, and `LeadTimeDays`.
+* **Data Quality Audits:** Employs NumPy to check missing value percentages per column and enforce strict schema rules.
+
+### 2️⃣ Exploratory Data Analysis & Visuals (`UC2`)
+
+* **Channel Revenue Mix:** Evaluates revenue distribution across Direct Website, OTAs (Expedia, Booking.com), Corporate Portals, Travel Agents, and Call Centers.
+* **ADR Trends:** Maps Average Daily Rate fluctuations across the 5-day booking window.
+* **Room Tier Spreads:** Analyzes median pricing and interquartile ranges (IQR) across Standard, Deluxe, Executive, and Suite categories.
+
+### 3️⃣ Statistical Insights & Pattern Detection (`UC3`)
+
+* **Loyalty Behavioral Modeling:** Analyzes cancellation rates across Non-Member, Silver, Gold, and Platinum tiers.
+* **Correlation Analysis:** Evaluates linear relationships between lead time and total booking spend ($r = -0.0165$).
+* **IQR Outlier Detection:** Implements Tukey's fences to identify rating anomalies across properties (flagging *Grand Horizon South Beach* at a 4.45 average rating).
+
+### 4️⃣ Relational Database Reporting & SQL Views (`UC4`)
+
+* **Custom SQLite Views:** Establishes persistent views (`vw_revenue_by_property`, `vw_channel_performance`) for fast retrieval.
+* **Advanced Matrices:** Generates property booking velocity heatmaps and hierarchical correlation clustermaps.
+
+### 5️⃣ Executive Business Summaries & Web UI (`UC5` & `app.py`)
+
+* **Flask Dashboard:** Real-time metrics tracking chain-wide occupancy, total revenue (`₹288,063.91`), and cancellation counts.
+* **Dynamic Report Builder:** Interactive regional filtering and CSV export capabilities for hotel managers.
+
+---
+
+## 🛠️ Tech Stack
+
+* **Core Language:** Python 3.x
+* **Data Engineering:** Pandas, NumPy
+* **Data Visualization:** Matplotlib, Seaborn
+* **Database Management:** SQLite3, SQLAlchemy
+* **Web Framework:** Flask, Jinja2, HTML5, CSS3
+* **Environment & Version Control:** PyCharm, VS Code, Git & GitHub
+
+---
+
+## 📂 Project Directory Structure
+
+```text
+Grand_Horizon_Hotels/
 │
-├── Data/
+├── Data/                              # Raw CSV datasets & lookup reference tables
 │   ├── hotel_bookings_dataset.csv
 │   ├── hotel_property_info.csv
 │   ├── booking_channel_info.csv
@@ -41,240 +105,84 @@ Hotel-Booking-Data-Analysis/
 │   ├── room_type_codes.csv
 │   └── loyalty_tier_info.csv
 │
-├── output/
-│   ├── cleaned_bookings.csv
+├── output/                            # Cleaned data extracts, CSV summaries, and database
+│   ├── hotel_bookings.db
 │   ├── enriched_bookings.csv
-│   ├── data_quality_report.csv
-│   ├── data_quality_report_after_cleaning.csv
-│   ├── analysis_answers.txt
-│   └── hotel_bookings.db
+│   └── summary_*.csv
 │
-├── Graphs/
-│   └── Generated charts and visualizations
+├── Graphs/                            # Generated analytical charts & visualizations
+│   ├── uc2_*.png
+│   ├── uc3_*.png
+│   ├── uc4_*.png
+│   └── uc5_*.png
 │
-├── UC1/
-│   └── Data cleaning and enrichment script
-│
-├── UC2/
-│   └── Booking trend analysis script
-│
-├── UC3/
-│   └── Customer loyalty and rating analysis script
-│
-├── UC4/
-│   └── Property performance and correlation analysis script
-│
-├── UC5/
-│   └── Revenue and booking channel analysis script
-│
-└── README.md
+├── app.py                             # Main Flask Web Application & Dashboard
+├── UC1_Load_and_Clean.py              # Ingestion, cleaning, and schema loading
+├── UC2_EDA_Visualization.py           # EDA script & exploratory charts
+├── UC3_Statistical_Insights.py        # Statistical models, loyalty trends, and IQR outliers
+├── UC4_SQLite_Reporting.py            # Property rankings, heatmaps, and SQL views
+├── UC5_Database_Reporting.py          # Executive business summaries & export builder
+└── README.md                          # Project documentation
+
 ```
 
-*Note: Adjust the folder and script names above to match your actual project directory.*
+---
 
-## Use Cases
+## ⚙️ Getting Started & Installation
 
-### UC1 – Data Cleaning and Data Enrichment
+1. **Clone the Repository:**
+```bash
+git clone [https://github.com/your-username/Grand_Horizon_Hotels.git](https://github.com/your-username/Grand_Horizon_Hotels.git)
+cd Grand_Horizon_Hotels
 
-**Purpose:** Prepare reliable booking data for subsequent analysis.
+```
 
-Key operations:
-- Load the booking dataset and reference tables.
-- Standardize column names, text fields, and lookup keys.
-- Convert booking, check-in, check-out, and update dates into datetime format.
-- Convert numeric fields such as room rate, nights, guest counts, total amount, and rating.
-- Normalize cancellation values into Boolean values.
-- Handle missing values and mark invalid values for review.
-- Derive features such as booking day, booking hour, length of stay, and lead time.
-- Merge reference tables into the booking dataset.
-- Generate pre-cleaning and post-cleaning data quality reports.
-- Export cleaned and enriched CSV files and store them in SQLite.
 
-**Main outputs:**
-- `cleaned_bookings.csv`
-- `enriched_bookings.csv`
-- `data_quality_report.csv`
-- `data_quality_report_after_cleaning.csv`
-- `hotel_bookings.db`
-- `analysis_answers.txt`
+2. **Install Dependencies:**
+```bash
+pip install pandas numpy matplotlib seaborn flask sqlalchemy
 
-### UC2 – Booking Trend and Cancellation Analysis
+```
 
-**Purpose:** Examine booking patterns over time and understand cancellation behavior.
 
-Key operations:
-- Analyze booking volume by booking date.
-- Compare cancelled and non-cancelled bookings.
-- Identify daily or periodic booking trends.
-- Examine cancellation patterns across properties or booking categories.
-- Generate time-based visualizations and summary statistics.
 
-**Typical outputs:**
-- Booking trend summaries
-- Cancellation summaries
-- Booking volume charts
-- Cancellation trend visualizations
+---
 
-### UC3 – Customer Loyalty and Rating Analysis
+## 🏃 Execution Guide
 
-**Purpose:** Understand how customer loyalty and booking characteristics relate to ratings and cancellation behavior.
-
-Key operations:
-- Compare cancellation rates across loyalty tiers.
-- Analyze guest ratings by loyalty category or property.
-- Examine lead time and length of stay.
-- Calculate correlations between relevant numerical booking metrics.
-- Generate summary tables and charts to identify patterns.
-
-**Typical outputs:**
-- Loyalty-tier cancellation summaries
-- Guest rating comparisons
-- Lead-time and stay-length analysis
-- Correlation summaries and visualizations
-
-### UC4 – Property Performance and Booking Metric Analysis
-
-**Purpose:** Compare hotel property performance and explore relationships between booking metrics.
-
-Key operations:
-- Calculate realized revenue by property.
-- Compare booking volumes across properties and dates.
-- Analyze guest ratings across markets.
-- Examine relationships among lead time, room rate, total amount, number of nights, and guest counts.
-- Generate heatmaps and comparison charts.
-
-**Typical outputs:**
-- Realized revenue by property
-- Non-cancelled booking volume by property and booking day
-- Average guest rating by market
-- Correlation heatmap of booking metrics
-
-### UC5 – Revenue and Booking Channel Analysis
-
-**Purpose:** Evaluate revenue contribution and cancellation behavior across booking channels and room types.
-
-Key operations:
-- Calculate cancellation rates by booking channel.
-- Compare revenue generated by booking channels.
-- Rank room types by realized revenue.
-- Compare property-level revenue and booking counts.
-- Generate charts to highlight revenue distribution and channel performance.
-
-**Typical outputs:**
-- Cancellation rate by booking channel
-- Revenue by property
-- Top room types by realized revenue
-- Booking channel and property summary CSV files
-
-## Data Processing Methodology
-
-The project follows a sequential workflow:
-
-1. **Data ingestion:** Load the booking dataset and all reference tables from the `Data/` directory.
-2. **Data profiling:** Generate an initial report showing missing values, percentages, and data types.
-3. **Data cleaning:** Standardize fields, convert data types, validate numeric values, and handle missing data.
-4. **Feature engineering:** Derive booking day, booking hour, length of stay, and lead time.
-5. **Data enrichment:** Join bookings with reference tables using their corresponding codes.
-6. **Data storage:** Save cleaned and enriched data to CSV files and SQLite.
-7. **Analysis:** Run UC2–UC5 using the cleaned or enriched dataset.
-8. **Visualization:** Save charts in the `Graphs/` directory.
-9. **Reporting:** Export summary tables and written analytical results to the `output/` directory.
-
-## Installation and Requirements
-
-Python 3.10 or later is recommended.
-
-Install the required libraries:
+Execute the pipeline scripts sequentially to build the data warehouse and generate all reports:
 
 ```bash
-pip install pandas numpy matplotlib seaborn
+# Step 1: Ingest, clean, and build database
+python UC1_Load_and_Clean.py
+
+# Step 2: Run exploratory data analysis
+python UC2_EDA_Visualization.py
+
+# Step 3: Compute statistical insights & outlier detection
+python UC3_Statistical_Insights.py
+
+# Step 4: Build SQLite reporting views & heatmaps
+python UC4_SQLite_Reporting.py
+
+# Step 5: Compile executive business summaries
+python UC5_Database_Reporting.py
+
+# Step 6: Launch the Flask Web Application
+python app.py
+
 ```
 
-SQLite support is included with Python's standard library through `sqlite3`.
+*Once running, open your web browser and go to **`http://127.0.0.1:5000`** to access the dashboard.*
 
-## How to Run the Project
+---
 
-Run the scripts from the project environment after placing the input CSV files in the `Data/` directory.
+## 💡 Key Business Insights & Findings
 
-**Step 1 – Run UC1**
+* **Top Revenue Channel:** **Direct Website** leads all booking avenues with **$69,982.87** in realized revenue (28.7% booking share).
+* **Top Revenue Room Type:** **Suites** dominate chain earnings, generating **$115,393.19** (46.4% of top room revenue) with a median booking amount of $1,335.39.
+* **Rating Outlier:** **Grand Horizon South Beach** identified as a statistical outlier with an exceptional average guest rating of **4.45**.
+* **Top Revenue Property:** **Grand Horizon Manhattan** leads property performance with **$40,018.04** in realized revenue.
+* **Channel Risk:** **Call Center** and **Travel Agent** channels carry the highest cancellation velocity at **19.05%**.
 
-```bash
-python UC1/uc1.py
-```
-
-This creates the cleaned and enriched datasets, data quality reports, and SQLite database.
-
-**Step 2 – Run UC2**
-
-```bash
-python UC2/uc2.py
-```
-
-**Step 3 – Run UC3**
-
-```bash
-python UC3/uc3.py
-```
-
-**Step 4 – Run UC4**
-
-```bash
-python UC4/uc4.py
-```
-
-**Step 5 – Run UC5**
-
-```bash
-python UC5/uc5.py
-```
-
-*Important:* Change the script paths and filenames in these commands to match your actual files. Run UC1 before UC2–UC5 because the later scripts depend on the cleaned or enriched data.
-
-## Visualization and Interpretation
-
-The generated charts help investigate:
-
-- Changes in booking volume over time.
-- Differences between cancelled and non-cancelled bookings.
-- Guest rating differences across markets.
-- Revenue differences across properties.
-- Cancellation rates across booking channels.
-- Revenue contributions of different room types.
-- Correlations between numerical booking variables.
-
-Visual patterns should be interpreted alongside the underlying summary tables and record counts. Correlation indicates association, not necessarily causation.
-
-For revenue comparisons, cancelled bookings should be excluded from realized revenue. Cancellation rates should be calculated only from records with a known cancellation status. Charts should also clearly identify their time period, units, and population.
-
-## Data Quality and Limitations
-
-- Missing values may affect summary statistics and visualizations.
-- Invalid dates and inconsistent booking fields should be investigated before drawing conclusions.
-- Imputed values should be documented so they are not mistaken for original observations.
-- Revenue calculations depend on the meaning and reliability of `total_amount`, `room_rate`, and `nights`.
-- Reference-table joins should preserve the original booking row count.
-- Correlation results can be influenced by missing values, outliers, and the distribution of the data.
-- Findings describe patterns in the supplied dataset and should not automatically be generalized to all hotels or customers.
-
-## Expected Deliverables
-
-The project produces:
-
-- Cleaned booking data
-- Enriched booking data
-- Data quality reports before and after cleaning
-- SQLite database containing booking and reference data
-- CSV analytical summaries
-- Text-based analysis results
-- Graphs and charts for all five use cases
-
-## Conclusion
-
-The Hotel Booking Data Analysis Project provides an end-to-end workflow for transforming raw hotel booking records into structured, analyzable data. The five use cases cover data preparation, booking trends, customer loyalty and ratings, property performance, and revenue and channel analysis.
-
-Together, these analyses can help identify booking patterns, evaluate cancellation behavior, compare property performance, and understand revenue contribution. The reliability of the conclusions depends on correct data cleaning, consistent metric definitions, valid reference-table joins, and appropriate interpretation of the generated charts.
-
-## Author
-
-**Project:** Hotel Booking Data Analysis  
-**Tools:** Python, Pandas, NumPy, Matplotlib, Seaborn, SQLite
+---
