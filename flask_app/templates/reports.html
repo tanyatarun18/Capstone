@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Business reports{% endblock %}
+
+{% block content %}
+<div class="intro intro-row">
+  <div>
+    <div class="eyebrow">MANAGEMENT REPORTING</div>
+    <h1>Business reports</h1>
+    <p>Explore booking performance and prepare regional summaries
+       for hotel managers.</p>
+  </div>
+
+  <a class="btn secondary"
+     href="{{ url_for('export_regional',
+                      region=selected_region,
+                      property=selected_property) }}">
+    ↓ Export CSV
+  </a>
+</div>
+
+<section class="panel filter-panel">
+  <div class="panel-head">
+    <div>
+      <div class="eyebrow">REPORT BUILDER</div>
+      <h2>Query booking performance</h2>
+      <p>Filter the active dataset by region and property.</p>
+    </div>
+    <span class="step">01</span>
+  </div>
+
+  <form method="get" action="{{ url_for('reports') }}" class="filters">
+    <div>
+      <label for="region">Region</label>
+      <select name="region" id="region">
+        <option value="">All regions</option>
+        {% for item in regions %}
+          <option value="{{ item }}"
+            {% if selected_region == item %}selected{% endif %}>
+            {{ item }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="property">Property</label>
+      <select name="property" id="property">
+        <option value="">All properties</option>
+        {% for item in properties %}
+          <option value="{{ item }}"
+            {% if selected_property == item %}selected{% endif %}>
+            {{ item }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn primary" type="submit">Run report →</button>
+      <a class="btn secondary" href="{{ url_for('reports') }}">
+        Clear filters
+      </a>
+    </div>
+  </form>
+</section>
+
+<div class="section-head">
+  <div>
+    <h2>Regional performance summary</h2>
+    <p>Calculated from the same SQLite dataset as the dashboard.</p>
+  </div>
+  <span class="pill">{{ rows|length }} summary rows</span>
+</div>
+
+<div class="summary-kpis">
+  <div>
+    <span>BOOKINGS IN RESULTS</span>
+    <b>{{ "{:,}".format(total_bookings) }}</b>
+  </div>
+  <div>
+    <span>CANCELLATIONS</span>
+    <b>{{ "{:,}".format(total_cancellations) }}</b>
+  </div>
+  <div>
+    <span>ESTIMATED REVENUE</span>
+    <b>{% if total_revenue %}₹{{ "{:,.2f}".format(total_revenue) }}
+       {% else %}—{% endif %}</b>
+  </div>
+</div>
+
+<section class="panel results">
+  {% if rows %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Region</th>
+          <th>Property</th>
+          <th>Bookings</th>
+          <th>Cancellations</th>
+          <th>Cancel rate</th>
+          <th>Revenue</th>
+          <th>Average ADR</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.region }}</td>
+          <td class="property">{{ row.property_name }}</td>
+          <td>{{ "{:,}".format(row.bookings) }}</td>
+          <td>{{ "{:,}".format(row.cancellations or 0) }}</td>
+          <td><span class="rate">
+            {{ "%.2f"|format(row.cancellation_rate or 0) }}%
+          </span></td>
+          <td>{% if row.revenue is not none %}
+            ₹{{ "{:,.2f}".format(row.revenue) }}
+            {% else %}—{% endif %}</td>
+          <td>{% if row.average_adr is not none %}
+            ₹{{ "{:,.2f}".format(row.average_adr) }}
+            {% else %}—{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">
+    <span>▤</span>
+    <h2>No booking records to report</h2>
+    <p>{% if selected_region or selected_property %}
+      No records match those filters. Clear the filters or choose another
+      option.
+      {% else %}
+      Import a CSV to populate this report. Your existing charts remain
+      available on the overview page.
+      {% endif %}
+    </p>
+    <a class="btn primary" href="{{ url_for('ingestion') }}">
+      Import booking CSV →
+    </a>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

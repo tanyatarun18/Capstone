@@ -1,0 +1,23 @@
+USE CASE 2 - EXPLORATORY ANALYSIS
+Non-cancelled bookings analyzed: 272
+Highest revenue channel: Direct Website
+Highest median room category: Suite
+Widest IQR room category: Suite
+Average room-rate trend (first vs last day): Upward
+
+Revenue by channel:
+channel_name
+Direct Website       69982.87
+OTA - Expedia        52279.57
+OTA - Booking.com    51180.37
+Travel Agent         31278.16
+Corporate Portal     31167.39
+Call Center          12991.31
+
+Room category statistics:
+                median     spread
+room_category                    
+Deluxe          533.28   600.9350
+Executive       913.50   619.0850
+Standard        430.68   529.1225
+Suite          1335.39  1407.5575

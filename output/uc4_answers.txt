@@ -1,0 +1,5 @@
+USE CASE 4 - PROPERTY AND MARKET REPORTING
+Highest revenue property: Grand Horizon Manhattan
+Highest realized revenue: 40018.04
+Highest average rating market: Miami
+Highest average rating: 4.45

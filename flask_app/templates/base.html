@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Overview{% endblock %} | Grand Horizon Hotels</title>
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}">
+      <span class="brand-mark">GH</span>
+      <span>
+        <b>Grand Horizon</b>
+        <small>HOTELS · INTELLIGENCE</small>
+      </span>
+    </a>
+
+    <div class="nav-caption">WORKSPACE</div>
+    <nav>
+    <a class="{% if request.endpoint == 'dashboard' %}active{% endif %}"
+       href="{{ url_for('dashboard') }}">
+        Overview
+    </a>
+
+    <a class="{% if request.endpoint == 'ingestion' %}active{% endif %}"
+       href="{{ url_for('ingestion') }}">
+        Data ingestion
+    </a>
+
+    <a class="{% if request.endpoint == 'quality' %}active{% endif %}"
+       href="{{ url_for('quality') }}">
+        Data quality
+    </a>
+
+    <a class="{% if request.endpoint == 'reports' %}active{% endif %}"
+       href="{{ url_for('reports') }}">
+        Business reports
+    </a>
+</nav>
+
+    <div class="sidebar-status">
+      <span class="dot"></span>
+      <span><b>Analytics workspace</b><small>Local environment</small></span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <b>GRAND HORIZON HOTELS</b>
+        <span class="slash">/</span>
+        <span>Analytics &amp; Data Management</span>
+      </div>
+      <span class="workspace"><span class="dot"></span> Workspace ready</span>
+    </header>
+
+    <div class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+              <div class="flash {{ category }}" role="status">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+      <span>Grand Horizon Hotels · Analytics</span>
+      <span>Internal business intelligence · {{ current_year }}</span>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

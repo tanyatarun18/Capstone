@@ -1,0 +1,10 @@
+USE CASE 1 - DATA CLEANING
+Original rows: 315
+Original columns: 22
+Rows after cleaning: 315
+Unique room type codes: 8
+Unique property codes: 8
+Average lead time (days): 18.19
+Cancellation rate (%): 13.65
+Columns above 50% missing after cleaning: []
+Rows with date validation issues: 11

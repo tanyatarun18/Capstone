@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content ingestion-page">
+
+    <!-- Page heading -->
+    <header class="page-header">
+        <p class="eyebrow">Data management</p>
+        <h1>Data ingestion</h1>
+        <p class="page-description">
+            Import a booking CSV, validate its contents and refresh the active
+            analytics dataset.
+        </p>
+    </header>
+
+    <!-- Upload card -->
+    <section class="ingestion-card">
+        <div class="ingestion-card-header">
+            <div class="ingestion-icon" aria-hidden="true">01</div>
+            <div>
+                <p class="eyebrow">Step 1</p>
+                <h2>Upload booking data</h2>
+                <p class="section-description">
+                    Select a CSV file containing your hotel booking records.
+                </p>
+            </div>
+        </div>
+
+        <div class="upload-info">
+            <span class="info-dot" aria-hidden="true"></span>
+            CSV files up to 25 MB are supported.
+        </div>
+
+        <!-- Keep the field name and route consistent with app.py -->
+        <form
+            class="ingestion-form"
+            action="{{ url_for('ingestion') }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+            <label for="booking-file">Booking CSV file</label>
+
+            <div class="upload-zone">
+                <div class="upload-zone-icon" aria-hidden="true">CSV</div>
+                <div class="upload-zone-content">
+                    <strong>Select your booking file</strong>
+                    <p>Choose a CSV file from your computer.</p>
+                </div>
+                <input
+                    id="booking-file"
+                    type="file"
+                    name="file"
+                    accept=".csv,text/csv"
+                    required
+                >
+            </div>
+
+            <div class="import-notice">
+                <strong>Before you import</strong>
+                <p>
+                    A successful import replaces the active dataset.
+                    Import history is retained and the uploaded CSV is saved
+                    in <code>data/uploads</code>. A failed import keeps the
+                    previous active dataset.
+                </p>
+            </div>
+
+            <div class="ingestion-actions">
+                <button type="submit" class="primary-button">
+                    Validate and refresh dataset
+                    <span aria-hidden="true">→</span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- CSV column guide -->
+    <section class="ingestion-card column-guide">
+        <div class="guide-heading">
+            <div class="guide-heading-icon" aria-hidden="true">✓</div>
+            <div>
+                <p class="eyebrow">Import guide</p>
+                <h2>Supported CSV columns</h2>
+                <p class="section-description">
+                    Common variations of hotel-booking column names may be
+                    mapped automatically by the importer.
+                </p>
+            </div>
+        </div>
+
+        <div class="column-list">
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">H</div>
+                <div class="column-item-content">
+                    <h3>Property / hotel</h3>
+                    <p>hotel_name, property_name, hotel_id</p>
+                </div>
+            </article>
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">R</div>
+                <div class="column-item-content">
+                    <h3>Region</h3>
+                    <p>region, market, area</p>
+                </div>
+            </article>
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">B</div>
+                <div class="column-item-content">
+                    <h3>Booking status</h3>
+                    <p>status, is_canceled, cancelled</p>
+                </div>
+            </article>
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">C</div>
+                <div class="column-item-content">
+                    <h3>Room and channel</h3>
+                    <p>room_type, channel, market_segment</p>
+                </div>
+            </article>
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">₹</div>
+                <div class="column-item-content">
+                    <h3>Rates and revenue</h3>
+                    <p>adr, average_daily_rate, revenue</p>
+                </div>
+            </article>
+
+            <article class="column-item">
+                <div class="column-item-icon" aria-hidden="true">D</div>
+                <div class="column-item-content">
+                    <h3>Dates and stay</h3>
+                    <p>arrival_date, check_in, nights, guests</p>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="schema-note">
+            <div class="schema-note-icon" aria-hidden="true">i</div>
+            <div>
+                <strong>Flexible schema</strong>
+                <p>
+                    Unrecognised columns are retained in raw row data.
+                    Missing optional values are reported rather than guessed.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Import history, when supplied by the Flask route -->
+    {% if import_history %}
+    <section class="ingestion-card import-history">
+        <div class="history-heading">
+            <div>
+                <p class="eyebrow">Activity</p>
+                <h2>Recent imports</h2>
+                <p class="section-description">
+                    Review previous dataset import attempts.
+                </p>
+            </div>
+            <span class="history-count">
+                {{ import_history|length }} record(s)
+            </span>
+        </div>
+
+        <div class="history-table-wrap">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Import details</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in import_history %}
+                    <tr>
+                        <td>
+                            {% if item is mapping %}
+                                {{ item.get('filename', item.get('file_name', 'CSV import')) }}
+                            {% else %}
+                                {{ item }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item is mapping %}
+                                {{ item.get('status', 'Recorded') }}
+                            {% else %}
+                                <span class="history-status">Recorded</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+
+</div>
+{% endblock %}

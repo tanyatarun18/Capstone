@@ -1,0 +1,9 @@
+ROOM_TYPE_CODE,ROOM_CATEGORY,DESCRIPTION,MAX_OCCUPANCY,BASE_RATE_TIER
+STD-K,Standard,Standard King Room,2,Tier1
+STD-D,Standard,Standard Double Queen Room,4,Tier1
+DLX-K,Deluxe,Deluxe King Room,2,Tier2
+DLX-D,Deluxe,Deluxe Double Queen Room,4,Tier2
+EXE-K,Executive,Executive King Room w/ Lounge Access,2,Tier3
+STE-JR,Suite,Junior Suite,3,Tier3
+STE-1B,Suite,One-Bedroom Suite,4,Tier4
+STE-PR,Suite,Presidential Suite,6,Tier5

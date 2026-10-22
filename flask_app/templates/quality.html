@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Data quality{% endblock %}
+
+{% block content %}
+<div class="intro">
+  <div>
+    <div class="eyebrow">VALIDATION &amp; TRUST</div>
+    <h1>Data quality</h1>
+    <p>Review missing values, duplicates, rejected rows and previous
+       dataset imports.</p>
+  </div>
+</div>
+
+{% if latest %}
+<section class="panel quality-panel">
+  <div class="panel-head">
+    <div>
+      <div class="eyebrow">LATEST IMPORT</div>
+      <h2>{{ latest.filename }}</h2>
+      <p>Validation results from your most recent upload in this browser
+         session.</p>
+    </div>
+    <span class="status">Processed</span>
+  </div>
+
+  <div class="quality-stats">
+    {% for label, value in [
+      ('Rows received', latest.rows_received),
+      ('Rows imported', latest.rows_imported),
+      ('Duplicate rows skipped', latest.duplicate_rows),
+      ('Rows rejected', latest.rows_rejected),
+      ('Missing cells', latest.missing_cells)
+    ] %}
+      <div>
+        <span>{{ label }}</span>
+        <b>{{ "{:,}".format(value) }}</b>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="quality-columns">
+    <div>
+      <h3>Recognised fields</h3>
+      <div class="tags">
+        {% for col in latest.columns_recognised %}
+          <span class="tag good">{{ col.replace('_', ' ') }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <h3>Fields not found</h3>
+      <div class="tags">
+        {% for col in latest.columns_missing %}
+          <span class="tag">{{ col.replace('_', ' ') }}</span>
+        {% endfor %}
+      </div>
+      <p class="hint">Missing optional fields are left blank rather
+         than inferred.</p>
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="panel empty">
+  <span>✓</span>
+  <h2>No recent quality report</h2>
+  <p>Import a CSV to run validation and generate a quality summary.</p>
+  <a class="btn primary" href="{{ url_for('ingestion') }}">
+    Go to data ingestion →
+  </a>
+</section>
+{% endif %}
+
+<section class="panel history-panel">
+  <div class="panel-head">
+    <div>
+      <div class="eyebrow">AUDIT TRAIL</div>
+      <h2>Import history</h2>
+      <p>Recent dataset refreshes recorded by this application.</p>
+    </div>
+    <span class="pill">{{ history|length }} recent imports</span>
+  </div>
+
+  {% if history %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Imported at (UTC)</th>
+          <th>Received</th>
+          <th>Imported</th>
+          <th>Rejected</th>
+          <th>Duplicates</th>
+          <th>Missing cells</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in history %}
+        <tr>
+          <td class="file">{{ row.source_file }}</td>
+          <td>{{ row.imported_at[:16].replace('T', ' ') }}</td>
+          <td>{{ "{:,}".format(row.rows_received) }}</td>
+          <td>{{ "{:,}".format(row.rows_imported) }}</td>
+          <td>{{ "{:,}".format(row.rows_rejected) }}</td>
+          <td>{{ "{:,}".format(row.duplicate_rows) }}</td>
+          <td>{{ "{:,}".format(row.missing_cells) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="empty-text">No imports recorded yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

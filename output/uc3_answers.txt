@@ -1,0 +1,20 @@
+USE CASE 3 - STATISTICAL ANALYSIS
+Lowest cancellation rate tier: Non-Member
+Lowest cancellation rate (%): 9.87
+Lead time vs amount correlation: -0.0165
+Rating IQR lower boundary: 3.434
+Rating IQR upper boundary: 4.414
+Rating outlier properties:
+property_name
+Grand Horizon South Beach    4.454545
+
+Mean rating by property:
+property_name
+Grand Horizon Chicago Loop          4.050000
+Grand Horizon Dallas Downtown       3.911765
+Grand Horizon Las Vegas Strip       4.045455
+Grand Horizon Manhattan             3.833333
+Grand Horizon Orlando Resort        3.652174
+Grand Horizon Seattle Waterfront    3.833333
+Grand Horizon South Beach           4.454545
+Grand Horizon Union Square          3.705882

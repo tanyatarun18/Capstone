@@ -1,0 +1,9 @@
+USE CASE 5 - BUSINESS SUMMARIES
+Bookings in source data: 315
+Non-cancelled bookings with valid revenue: 272
+Top room type by realized revenue: Suite
+Top room type revenue: 115393.19
+Highest cancellation rate channel: Call Center
+Highest cancellation rate (%): 19.05
+Highest revenue property: Grand Horizon Manhattan
+Highest property revenue: 40018.04

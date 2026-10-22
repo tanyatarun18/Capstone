@@ -1,0 +1,7 @@
+channel_name,booking_count,cancellations,cancellation_rate,revenue
+Call Center,21,4,19.047619047619047,12991.31
+Travel Agent,42,8,19.047619047619047,31278.16
+OTA - Expedia,68,9,13.23529411764706,52279.57
+OTA - Booking.com,61,8,13.114754098360656,51180.37
+Direct Website,89,11,12.359550561797752,69982.87
+Corporate Portal,34,3,8.823529411764707,31167.39

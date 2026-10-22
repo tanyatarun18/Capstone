@@ -1,0 +1,9 @@
+PROPERTY_CODE,PROPERTY_NAME,CITY,STATE,COUNTRY,BRAND_TIER,TOTAL_ROOMS,ADDRESS,PHONE,LATITUDE,LONGITUDE,LOCATION
+NYC01,Grand Horizon Manhattan,New York,NY,USA,Luxury,410,350 Park Ave,212-555-0110,40.7614,-73.9776,"(40.7614, -73.9776)"
+CHI02,Grand Horizon Chicago Loop,Chicago,IL,USA,Upscale,320,151 W Wacker Dr,312-555-0122,41.8869,-87.6355,"(41.8869, -87.6355)"
+MIA03,Grand Horizon South Beach,Miami,FL,USA,Luxury,260,1500 Ocean Dr,305-555-0133,25.7826,-80.13,"(25.7826, -80.13)"
+LAS04,Grand Horizon Las Vegas Strip,Las Vegas,NV,USA,Upscale,550,3745 Las Vegas Blvd S,702-555-0144,36.1147,-115.1728,"(36.1147, -115.1728)"
+SFO05,Grand Horizon Union Square,San Francisco,CA,USA,Luxury,280,335 Powell St,415-555-0155,37.7879,-122.4082,"(37.7879, -122.4082)"
+ORL06,Grand Horizon Orlando Resort,Orlando,FL,USA,Midscale,620,6677 Sea Harbor Dr,407-555-0166,28.4177,-81.4676,"(28.4177, -81.4676)"
+DAL07,Grand Horizon Dallas Downtown,Dallas,TX,USA,Midscale,300,1914 Commerce St,214-555-0177,32.7801,-96.799,"(32.7801, -96.799)"
+SEA08,Grand Horizon Seattle Waterfront,Seattle,WA,USA,Upscale,240,2100 Alaskan Way,206-555-0188,47.6131,-122.352,"(47.6131, -122.352)"
